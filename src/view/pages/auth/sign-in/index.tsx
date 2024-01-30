@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z as zod } from 'zod'
 
 import { sleep } from '@/app/utils/sleep'
@@ -24,8 +25,17 @@ export function SignIn() {
   })
 
   async function handleSignIn(data: SignInForm) {
-    console.log({ data })
-    await sleep(2000)
+    try {
+      await sleep(2000)
+      toast('Enviamos um link de autenticação para seu e-mail!', {
+        action: {
+          label: 'Reenviar',
+          onClick: () => handleSignIn(data),
+        },
+      })
+    } catch (error) {
+      toast('E-mail inválido!')
+    }
   }
 
   return (
