@@ -1,10 +1,33 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { z as zod } from 'zod'
 
+import { sleep } from '@/app/utils/sleep'
 import { Button } from '@/view/components/ui/button'
 import { Input } from '@/view/components/ui/input'
 import { Label } from '@/view/components/ui/label'
 
+const signInFormSchema = zod.object({
+  email: zod.string().email(),
+})
+
+type SignInForm = zod.infer<typeof signInFormSchema>
+
 export function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<SignInForm>({
+    resolver: zodResolver(signInFormSchema),
+  })
+
+  async function handleSignIn(data: SignInForm) {
+    console.log({ data })
+    await sleep(2000)
+  }
+
   return (
     <>
       <Helmet title="Login" />
@@ -17,13 +40,13 @@ export function SignIn() {
             Acompanhe suas venda pelo painel do parceiro!
           </p>
         </div>
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Seu e-mail</Label>
-            <Input id="email" type="email" />
+            <Input id="email" type="email" {...register('email')} />
           </div>
 
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" disabled={isSubmitting}>
             Acessar painel
           </Button>
         </form>
