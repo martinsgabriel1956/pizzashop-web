@@ -1,3 +1,4 @@
+export { NotFound } from './404'
 export { Dashboard } from './app/dashboard'
 export { Orders } from './app/orders'
 export { SignIn } from './auth/sign-in'
