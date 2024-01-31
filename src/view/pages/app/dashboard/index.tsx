@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async'
-import { DayOrderAmountCard, MonthCanceledOrdersAmountCard, MonthOrdersAmountCard, MonthRevenueCard } from './components'
+import { DayOrderAmountCard, MonthCanceledOrdersAmountCard, MonthOrdersAmountCard, MonthRevenueCard, RevenueChart } from './components'
 
 export function Dashboard() {
   return (
@@ -13,6 +13,10 @@ export function Dashboard() {
           <MonthOrdersAmountCard />
           <DayOrderAmountCard />
           <MonthCanceledOrdersAmountCard />
+        </div>
+
+        <div className="grid grid-cols-9 gap-4">
+          <RevenueChart />
         </div>
       </div>
     </>
