@@ -1,49 +1,14 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Helmet } from 'react-helmet-async'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import { z as zod } from 'zod'
+import { Link } from 'react-router-dom'
 
-import { sleep } from '@/app/utils/sleep'
 import { Button } from '@/view/components/ui/button'
 import { Input } from '@/view/components/ui/input'
 import { Label } from '@/view/components/ui/label'
 
-const signUpFormSchema = zod.object({
-  restaurantName: zod.string(),
-  managerName: zod.string(),
-  phone: zod.string(),
-  email: zod.string().email(),
-})
-
-type SignUpForm = zod.infer<typeof signUpFormSchema>
+import { useSignUp } from './useSignUp'
 
 export function SignUp() {
-  const navigate = useNavigate()
-
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SignUpForm>({
-    resolver: zodResolver(signUpFormSchema),
-  })
-
-  async function handleSignIn(data: SignUpForm) {
-    console.log({ data })
-    try {
-      await sleep(2000)
-      toast('Restaurante cadastrado com sucesso!', {
-        action: {
-          label: 'Login',
-          onClick: () => navigate('/sign-in'),
-        },
-      })
-    } catch (error) {
-      toast('Erro ao cadastrar restaurante.')
-    }
-  }
+  const { handleSubmit, handleSignIn, register, isSubmitting } = useSignUp()
 
   return (
     <>
