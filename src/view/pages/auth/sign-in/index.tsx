@@ -1,43 +1,14 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Helmet } from 'react-helmet-async'
-import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
-import { z as zod } from 'zod'
 
-import { sleep } from '@/app/utils/sleep'
 import { Button } from '@/view/components/ui/button'
 import { Input } from '@/view/components/ui/input'
 import { Label } from '@/view/components/ui/label'
 
-const signInFormSchema = zod.object({
-  email: zod.string().email(),
-})
-
-type SignInForm = zod.infer<typeof signInFormSchema>
+import { useSignIn } from './useSignIn'
 
 export function SignIn() {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SignInForm>({
-    resolver: zodResolver(signInFormSchema),
-  })
-
-  async function handleSignIn(data: SignInForm) {
-    try {
-      await sleep(2000)
-      toast('Enviamos um link de autenticação para seu e-mail!', {
-        action: {
-          label: 'Reenviar',
-          onClick: () => handleSignIn(data),
-        },
-      })
-    } catch (error) {
-      toast('E-mail inválido!')
-    }
-  }
+  const { handleSubmit, handleSignIn, isSubmitting, register } = useSignIn()
 
   return (
     <>
